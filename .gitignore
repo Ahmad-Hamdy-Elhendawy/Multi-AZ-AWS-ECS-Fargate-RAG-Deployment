@@ -1,0 +1,17 @@
+.env
+tree.txt
+Test.txt
+SETUP.md
+terraform/terraform.tf*
+terraform/.terraform
+terraform/.terraform*
+terraform/*.tfstate*
+.venv/
+source/
+src/
+src/assets/qdrant/
+*.sqlite
+*.db
+README.md
+.git
+
