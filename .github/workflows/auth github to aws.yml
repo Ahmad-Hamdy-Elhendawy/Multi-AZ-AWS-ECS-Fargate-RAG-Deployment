@@ -84,6 +84,14 @@ jobs:
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
+        env:
+            AWS_REGION: "eu-north-1"                                 # your account/role's general region
+            ECR_REPOSITORY: "medical-rag"
+            ECS_SERVICE: "medical-rag-ecs"
+            ECS_CLUSTER: "medical-rag-cluster"
+            ECS_TASK_DEFINITION: "terraform/task_definition.json"
+            CONTAINER_NAME: "medical-rag-container"
+            ECR_PUBLIC_REGION: "us-east-1"     
         uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
