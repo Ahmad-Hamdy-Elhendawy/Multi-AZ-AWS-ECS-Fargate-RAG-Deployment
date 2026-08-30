@@ -26,4 +26,4 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/medical-rag:latest
+          tags: ahmadelhendawyfr/medical-rag:latest
