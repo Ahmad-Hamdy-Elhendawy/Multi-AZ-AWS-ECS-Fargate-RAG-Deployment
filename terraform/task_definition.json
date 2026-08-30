@@ -1,25 +1,26 @@
-[
+{
+  "family": "medical-rag-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::431451851290:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
     {
       "name": "medical-rag-container",
       "image": "public.ecr.aws/c0w4z1m9/medical-rag:latest",
       "essential": true,
-
       "portMappings": [
-        {
-          "containerPort": 8501,
-          "hostPort": 8501,
-          "protocol": "tcp"
-        }
+        { "containerPort": 8501, "hostPort": 8501, "protocol": "tcp" }
       ],
-
       "logConfiguration": {
         "logDriver": "awslogs",
-
         "options": {
-          "awslogs-group": "aws_cloudwatch_log_group.medical_rag.name",
-          "awslogs-region": "var.region",
+          "awslogs-group": "/ecs/medical-rag",
+          "awslogs-region": "eu-north-1",
           "awslogs-stream-prefix": "ecs"
         }
       }
     }
   ]
+}
