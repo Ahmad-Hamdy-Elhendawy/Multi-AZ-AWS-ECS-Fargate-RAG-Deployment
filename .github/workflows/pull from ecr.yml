@@ -1,0 +1,21 @@
+name: Pull from ECR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pull-ecr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull from ECR
+        id: ecr
+        uses: jwalton/gh-ecr-push@v2
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: us-east-1
+          image: my-image:dev-${{ github.sha }}
+          local-image: my-image
+          direction: pull
