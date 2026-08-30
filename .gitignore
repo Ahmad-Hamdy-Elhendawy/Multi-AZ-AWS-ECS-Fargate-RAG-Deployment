@@ -7,11 +7,9 @@ terraform/.terraform
 terraform/.terraform*
 terraform/*.tfstate*
 .venv/
-source/
-src/
-src/assets/qdrant/
-*.sqlite
-*.db
 README.md
 .git
+.env
+__pycache__/
+.venv/
 
