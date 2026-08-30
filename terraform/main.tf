@@ -469,7 +469,11 @@ resource "aws_iam_role_policy" "github_actions_test" {
     Statement = [
       {
         Effect = "Allow"
-        Action = "sts:GetCallerIdentity"
+        Action = [
+          "sts:GetCallerIdentity",
+          "ecr:GetAuthorizationToken",
+          "ecr:InitiateLayerUpload"
+        ]
         Resource = "*"
       }
     ]
