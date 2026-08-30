@@ -1,0 +1,25 @@
+[
+    {
+      "name": "medical-rag-container",
+      "image": "public.ecr.aws/c0w4z1m9/medical-rag:latest",
+      "essential": true,
+
+      "portMappings": [
+        {
+          "containerPort": 8501,
+          "hostPort": 8501,
+          "protocol": "tcp"
+        }
+      ],
+
+      "logConfiguration": {
+        "logDriver": "awslogs",
+
+        "options": {
+          "awslogs-group": "aws_cloudwatch_log_group.medical_rag.name",
+          "awslogs-region": "var.region",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
