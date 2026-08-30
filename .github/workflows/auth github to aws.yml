@@ -9,16 +9,13 @@ on:
     branches: [ main ]
 
 env:
-  AWS_REGION: "eu-north-1"            # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: "medical-rag"           # set this to your Amazon ECR repository name
-  ECS_SERVICE: "medical-rag-ecs"                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: "medical-rag-cluster"                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: "terraform/task_definition.json" # set this to the path to your Amazon ECS task definition
-                                           # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: "medical-rag-container"           # set this to the name of the container in the
-
-  ECR_PUBLIC_REGION: "us-east-1"    # ECR Public's control-plane API only lives here
-                                               # containerDefinitions section of your task definition
+  AWS_REGION: "eu-north-1"                                 # your account/role's general region
+  ECR_REPOSITORY: "medical-rag"
+  ECS_SERVICE: "medical-rag-ecs"
+  ECS_CLUSTER: "medical-rag-cluster"
+  ECS_TASK_DEFINITION: "terraform/task_definition.json"
+  CONTAINER_NAME: "medical-rag-container"
+  ECR_PUBLIC_REGION: "us-east-1"                            # ECR Public's control-plane API only lives here
 
 # Permission can be added at job level or workflow level
 permissions:
@@ -53,6 +50,7 @@ jobs:
           registry-type: public
 
       - name: Build, tag, and push docker image to Amazon ECR Public
+        id: build-image
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: c0w4z1m9/medical-rag
@@ -60,7 +58,7 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-
+          echo "image=$REGISTRY/$REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
