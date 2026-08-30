@@ -449,7 +449,7 @@ resource "aws_iam_role" "github_actions" {
           }
 
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:Ahmad-Hamdy-Elhendawy/aws-ecs-fargate-rag-cicd-deployment:*"
+            "token.actions.githubusercontent.com:sub" = "repo:Ahmad-Hamdy-Elhendawy@210468353/aws-ecs-fargate-rag-cicd-deployment@1351505767:ref:refs/heads/main"
           }
         }
       }
