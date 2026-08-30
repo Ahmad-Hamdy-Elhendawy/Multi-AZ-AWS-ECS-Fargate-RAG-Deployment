@@ -464,17 +464,28 @@ resource "aws_iam_role_policy" "github_actions_test" {
   role = aws_iam_role.github_actions.id
 
   policy = jsonencode({
-    Version = "2012-10-17"
-
-    Statement = [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        Effect = "Allow"
-        Action = [
-          "sts:GetCallerIdentity",
-          "ecr:GetAuthorizationToken",
-          "ecr:InitiateLayerUpload"
-        ]
-        Resource = "*"
+        "Sid" : "ECRPublicAuth",
+        "Effect" : "Allow",
+        "Action" : [
+          "ecr-public:GetAuthorizationToken",
+          "sts:GetServiceBearerToken"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "ECRPublicPush",
+        "Effect" : "Allow",
+        "Action" : [
+          "ecr-public:BatchCheckLayerAvailability",
+          "ecr-public:PutImage",
+          "ecr-public:InitiateLayerUpload",
+          "ecr-public:UploadLayerPart",
+          "ecr-public:CompleteLayerUpload"
+        ],
+        "Resource" : "arn:aws:ecr-public::431451851290:repository/medical-rag"
       }
     ]
   })
