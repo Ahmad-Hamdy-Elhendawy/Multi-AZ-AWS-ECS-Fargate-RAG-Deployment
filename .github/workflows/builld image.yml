@@ -5,6 +5,12 @@ on:
   push:
 
 jobs:
+
+  list:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List files
+        run: find . -maxdepth 3 -type f
   docker:
     environment: dockerhub
     runs-on: ubuntu-latest
@@ -15,9 +21,7 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - 
-        name: List files
-        run: find . -maxdepth 3 -type f
+
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v4
