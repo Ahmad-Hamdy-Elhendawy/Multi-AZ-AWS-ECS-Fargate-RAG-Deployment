@@ -471,7 +471,14 @@ resource "aws_iam_role_policy" "github_actions_test" {
         "Effect" : "Allow",
         "Action" : [
           "ecr-public:GetAuthorizationToken",
-          "sts:GetServiceBearerToken"
+          "sts:GetServiceBearerToken",
+          "ecs:RegisterTaskDefinition",
+          "iam:PassRole",
+          "ecs:UpdateService",
+          "ecs:DescribeServices",
+          "ecs:DescribeTaskDefinition",
+          "ecs:DescribeTasks",
+          "ecs:ListTasks"
         ],
         "Resource" : "*"
       },
