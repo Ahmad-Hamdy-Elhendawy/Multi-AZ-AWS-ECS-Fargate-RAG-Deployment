@@ -4,7 +4,7 @@
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
   "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::431451851290:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::431451851290:role/ecs-task-execution-role",
   "containerDefinitions": [
     {
       "name": "medical-rag-container",
