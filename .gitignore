@@ -7,7 +7,6 @@ terraform/.terraform
 terraform/.terraform*
 terraform/*.tfstate*
 .venv/
-README.md
 .git
 .env
 __pycache__/
