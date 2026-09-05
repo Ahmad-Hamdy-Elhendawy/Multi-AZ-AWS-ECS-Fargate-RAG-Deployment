@@ -1,1 +1,5 @@
 region = "eu-north-1"
+GROQ_API_KEY = "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"
+GROQ_MODEL = "openai/gpt-oss-120b"
+HOST = "0.0.0.0"
+PORT = "8000"

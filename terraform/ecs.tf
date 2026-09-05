@@ -1,5 +1,6 @@
 ###### ECS CLUSTER ######
 
+
 resource "aws_ecs_cluster" "medical_rag_cluster" {
   name = "medical-rag-cluster"
 
@@ -40,7 +41,6 @@ resource "aws_iam_role" "ecs_task_execution" {
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
   role = aws_iam_role.ecs_task_execution.name
-
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -119,4 +119,22 @@ resource "aws_ecs_service" "medical_rag_ecs" {
     container_name   = "medical-rag-container"
     container_port   = 8501
   }
+}
+
+resource "aws_iam_role_policy" "ecs_secrets" {
+  name = "ecs-secrets-access"
+  role = aws_iam_role.ecs_task_execution.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = aws_secretsmanager_secret.groq_api_key.arn
+      }
+    ]
+  })
 }
