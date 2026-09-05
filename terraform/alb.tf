@@ -43,6 +43,13 @@ resource "aws_lb_target_group" "medical_task_tg" {
   port        = 8501
   protocol    = "HTTP"
   target_type = "ip"
+  
+  health_check {
+    interval            = 15
+    unhealthy_threshold = 3 # More tolerance for slow starts
+    healthy_threshold   = 2 # Faster promotion to healthy
+  }
+
 
   vpc_id = aws_vpc.main.id
 }

@@ -98,6 +98,14 @@ resource "aws_ecs_service" "medical_rag_ecs" {
 
   desired_count = 2
 
+  health_check_grace_period_seconds = 120 
+
+  deployment_circuit_breaker {
+  enable   = true
+  rollback = true
+}
+
+
   launch_type = "FARGATE"
   depends_on = [aws_lb_listener.lb_listener]
 
