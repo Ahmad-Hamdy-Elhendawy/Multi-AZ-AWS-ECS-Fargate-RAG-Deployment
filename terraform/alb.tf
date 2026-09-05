@@ -16,7 +16,11 @@ resource "aws_lb" "main_alb" {
 
   enable_deletion_protection = false
 
-
+  access_logs {
+    bucket  = aws_s3_bucket.lb_logs.id
+    prefix  = "lb-logs"
+    enabled = true
+  }
 
   tags = {
     Environment = "production"
