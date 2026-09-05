@@ -10,9 +10,34 @@
       "name": "medical-rag-container",
       "image": "public.ecr.aws/c0w4z1m9/medical-rag:latest",
       "essential": true,
-      "portMappings": [
-        { "containerPort": 8501, "hostPort": 8501, "protocol": "tcp" }
+
+      "environment": [
+        {
+          "name": "GROQ_MODEL",
+          "value": "openai/gpt-oss-120b"
+        },
+        {
+          "name": "HOST",
+          "value": "0.0.0.0"
+        },
+        {
+          "name": "PORT",
+          "value": "8501"
+        },
+        {
+          "name": "GROQ_API_KEY",
+          "value": "${GROQ_API_KEY}"
+        }
       ],
+
+      "portMappings": [
+        {
+          "containerPort": 8501,
+          "hostPort": 8501,
+          "protocol": "tcp"
+        }
+      ],
+
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {

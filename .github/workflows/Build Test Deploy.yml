@@ -67,6 +67,12 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }} 
 
+      - name: Inject Groq API key
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          sed -i "s|\${GROQ_API_KEY}|$GROQ_API_KEY|g" terraform/task_definition.json
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         env:
           AWS_REGION: "eu-north-1"                                 # your account/role's general region

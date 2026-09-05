@@ -1,16 +1,7 @@
-FROM python:3.12-slim
-
-WORKDIR /app
-
-COPY requirements.txt constraints.txt ./
-
-RUN pip install --no-cache-dir \
-    --extra-index-url https://download.pytorch.org/whl/cpu \
-    -c constraints.txt \
-    -r requirements.txt
-
-COPY . .
+FROM nginx:alpine
 
 EXPOSE 8501
 
-CMD ["streamlit", "run", "src/app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+RUN sed -i 's/listen       80;/listen       8501;/' /etc/nginx/conf.d/default.conf
+
+COPY index.html /usr/share/nginx/html/index.html
