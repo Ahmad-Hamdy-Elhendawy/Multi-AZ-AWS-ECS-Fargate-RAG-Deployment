@@ -25,88 +25,27 @@ The deployment consists of:
 
 ---
 
-## The Application
-
-The deployed workload is a **Medical RAG System** — a "Polio Guidelines Assistant" that answers questions with grounded, cited retrieval rather than free-form generation.
-
-- **UI:** Streamlit chat interface (`src/app.py`), served on `:8501` — this is what's exposed through the ALB.
-- **API:** FastAPI app (`src/main.py`, `src/api/`) exposing `/`, `/health`, and `/docs`.
-- **Vector store:** Qdrant, embedding documents with `sentence-transformers/all-MiniLM-L6-v2` (384-dim).
-- **Chunking:** 600-character chunks, 50-character overlap.
-- **Retrieval:** top-3 nearest chunks per query.
-- **Generation:** Groq-hosted LLM (`GROQ_MODEL`, defaults to `openai/gpt-oss-120b`, with fallbacks to `qwen/qwen3.6-27b` and `openai/gpt-oss-20b`).
-- **Ingestion:** PDF guideline documents (`pypdf`) chunked and embedded into the `polio_medical_docs` Qdrant collection.
-
-### Local Development
-
-```bash
-git clone https://github.com/Ahmad-Hamdy-Elhendawy/aws-ecs-fargate-rag-cicd-deployment.git
-cd aws-ecs-fargate-rag-cicd-deployment
-
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-cp .env.example .env          # add your GROQ_API_KEY
-```
-
-**Required environment variables** (`src/config.py`):
-
-| Variable | Required | Default | Purpose |
-|---|---|---|---|
-| `GROQ_API_KEY` | Yes | — | Groq API authentication |
-| `GROQ_MODEL` | No | `openai/gpt-oss-120b` | Overrides the generation model |
-| `HOST` | No | `0.0.0.0` | FastAPI bind host |
-| `PORT` | No | `8000` | FastAPI bind port |
-
-Run the Streamlit UI (matches what ships in the container):
-
-```bash
-streamlit run src/app.py
-```
-
-Or run the FastAPI service:
-
-```bash
-python -m src.main
-# or: uvicorn src.main:app --reload
-```
-
----
-
 ## Project Structure
 
 ```text
 .
 ├── .github/
 │   └── workflows/
-│       └── Build Test Deploy.yml
+│       └── auth-github-to-aws.yml
+├── source/
 ├── src/
-│   ├── api/            # FastAPI routes and schemas
-│   ├── generation/      # Groq-based answer generation
-│   ├── ingestion/        # PDF chunking and loading
-│   ├── retrieval/        # Query-time retrieval logic
-│   ├── vectorstore/      # Qdrant vector store wrapper
-│   ├── assets/           # Source documents + local Qdrant storage
-│   ├── app.py             # Streamlit chat UI (container entrypoint)
-│   ├── main.py             # FastAPI entrypoint
-│   └── config.py            # Env-based configuration
 ├── terraform/
 │   ├── main.tf
-│   ├── provider.tf
+│   ├── providers.tf
 │   ├── variable.tf
 │   ├── output.tf
 │   ├── sg.tf
-│   ├── vpc.tf
-│   ├── alb.tf
-│   ├── ecs.tf
-│   ├── github-oidc.tf
-│   ├── s3-logs.tf
 │   └── task_definition.json
 ├── Dockerfile
 ├── requirements.txt
 ├── constraints.txt
-└── README.md
+├── README.md
+└── SETUP.md
 ```
 
 ---
