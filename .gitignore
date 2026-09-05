@@ -6,9 +6,12 @@ terraform/terraform.tf*
 terraform/.terraform
 terraform/.terraform*
 terraform/*.tfstate*
+terrafrom.tfvars
 .venv/
 .git
 .env
 __pycache__/
 .venv/
-
+terraform/*.tfvars
+*.tfvars
+terraform/terrafrom.tfvars
